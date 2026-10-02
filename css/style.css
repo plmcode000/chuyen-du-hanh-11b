@@ -1,0 +1,1481 @@
+/* ==========================================================================
+   20/10 - CHUYẾN DU HÀNH VŨ TRỤ MANG NHỮNG BÔNG HOA ĐẾN LỚP 11B
+   TYPOGRAPHY SYSTEM:
+   1. PLAYFAIR DISPLAY — Font Tiêu đề (Bold 700 / SemiBold 600)
+   2. MONTSERRAT — Font Nội dung (Regular 400 / Medium 500 / SemiBold 600)
+   3. DANCING SCRIPT — Font Viết tay nghệ thuật (Medium 500 / SemiBold 600)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&subset=vietnamese&display=swap');
+
+:root {
+  --primary-pink: #ff70a6;
+  --pastel-pink: #ffd2e0;
+  --neon-pink: #ff2a85;
+  --deep-purple: #130924;
+  --galaxy-dark: #0a0414;
+  --space-violet: #2e0854;
+  --gold-accent: #ffd166;
+  --gold-glow: rgba(255, 209, 102, 0.85);
+  --cyan-thruster: #00f5d4;
+  --white-glow: rgba(255, 255, 255, 0.9);
+  
+  /* CHÍNH XÁC 3 FONT CHỮ THEO YÊU CẦU */
+  --font-title: 'Playfair Display', Georgia, serif;
+  --font-body: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-script: 'Dancing Script', cursive;
+  
+  --glass-bg: rgba(25, 12, 40, 0.65);
+  --glass-border: rgba(255, 140, 185, 0.28);
+  --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 112, 166, 0.25);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--galaxy-dark);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-weight: 400;
+  overflow-x: hidden;
+  position: relative;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------------------------------
+   CANVAS NỀN PARTICLE
+   -------------------------------------------------------------------------- */
+#particleCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   HEADER & AUDIO CONTROLS
+   -------------------------------------------------------------------------- */
+.top-nav {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-music-toggle {
+  background: rgba(255, 112, 166, 0.15);
+  border: 1px solid rgba(255, 140, 185, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 9px 18px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 0 20px rgba(255, 112, 166, 0.3);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn-music-toggle:hover {
+  background: rgba(255, 112, 166, 0.35);
+  border-color: #ff70a6;
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(255, 112, 166, 0.6);
+}
+
+.btn-music-toggle.muted {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #aaa;
+  box-shadow: none;
+}
+
+.audio-toast {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 999;
+  background: linear-gradient(135deg, rgba(255, 112, 166, 0.3), rgba(114, 9, 183, 0.4));
+  border: 1px solid rgba(255, 175, 204, 0.5);
+  backdrop-filter: blur(12px);
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(255, 42, 133, 0.3);
+  animation: pulseToast 2s infinite ease-in-out;
+  transition: opacity 0.4s ease;
+}
+
+@keyframes pulseToast {
+  0%, 100% { transform: translateY(0); box-shadow: 0 8px 25px rgba(255, 42, 133, 0.3); }
+  50% { transform: translateY(-4px); box-shadow: 0 12px 35px rgba(255, 42, 133, 0.6); }
+}
+
+/* --------------------------------------------------------------------------
+   GIAI ĐOẠN 1 & 2: MÀN HÌNH HỒNG & INTRO
+   -------------------------------------------------------------------------- */
+.intro-section {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  text-align: center;
+  background: radial-gradient(circle at center, rgba(140, 20, 80, 0.45) 0%, rgba(35, 10, 50, 0.85) 60%, rgba(10, 4, 20, 0.98) 100%);
+  transition: opacity 1.5s ease, filter 1.5s ease;
+}
+
+.intro-section.fade-to-cosmos {
+  opacity: 0;
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+.intro-decor-flowers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.intro-float-flower {
+  position: absolute;
+  font-size: 2.2rem;
+  opacity: 0.35;
+  filter: drop-shadow(0 0 15px rgba(255, 112, 166, 0.7));
+  animation: floatFlowerSlow ease-in-out infinite alternate;
+}
+
+.intro-float-flower.fl-0 { font-size: 2.8rem; opacity: 0.45; filter: blur(0px); }
+.intro-float-flower.fl-1 { font-size: 1.8rem; opacity: 0.3; filter: blur(1.5px); }
+.intro-float-flower.fl-2 { font-size: 3.2rem; opacity: 0.25; filter: blur(3px); }
+.intro-float-flower.fl-3 { font-size: 2.0rem; opacity: 0.4; filter: blur(0.5px); }
+
+@keyframes floatFlowerSlow {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-25px) rotate(15deg); }
+  100% { transform: translateY(15px) rotate(-10deg); }
+}
+
+.intro-wishes-container {
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+/* HANDWRITTEN QUOTE: Dancing Script Medium 22–32px */
+.intro-wish-text {
+  font-family: var(--font-script);
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #ffd6e0;
+  text-shadow: 0 0 15px rgba(255, 112, 166, 0.7), 0 0 30px rgba(255, 42, 133, 0.4);
+  opacity: 0;
+  transform: translateY(15px) scale(0.96);
+  transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.intro-wish-text.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* KHỐI TITLE 20/10 CHÍNH */
+.intro-title-block {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: all 1.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
+}
+
+.intro-title-block.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* MAIN TITLE: Playfair Display Bold 64–100px desktop, 40–64px mobile */
+.title-big-number {
+  font-family: var(--font-title);
+  font-size: clamp(56px, 12vw, 100px);
+  font-weight: 700;
+  line-height: 1;
+  color: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #ffcbf2 40%, #ff70a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.6)) drop-shadow(0 0 45px rgba(255, 112, 166, 0.5));
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+
+/* SECTION TITLE / SUBTITLE: Playfair Display SemiBold */
+.title-subtitle {
+  font-family: var(--font-title);
+  font-size: clamp(20px, 3.2vw, 32px);
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: #fff0f5;
+  text-shadow: 0 0 20px rgba(255, 112, 166, 0.8);
+  margin-bottom: 18px;
+}
+
+/* BODY LEAD: Montserrat Regular */
+.title-lead {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 2.2vw, 18px);
+  font-weight: 400;
+  line-height: 1.7;
+  color: #ffccd5;
+  max-width: 720px;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.title-prompt {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+  color: #f72585;
+  margin-bottom: 35px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 12px rgba(247, 37, 133, 0.5);
+}
+
+/* BUTTON: Montserrat SemiBold 14–16px, Letter-spacing 0.5–1px */
+.btn-voyage-start {
+  position: relative;
+  background: linear-gradient(135deg, #ff477e 0%, #ff0a54 40%, #7209b7 100%);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 18px 45px;
+  border-radius: 60px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  box-shadow: 0 0 35px rgba(255, 10, 84, 0.6), 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn-voyage-start:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 0 55px rgba(255, 10, 84, 0.9), 0 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+.btn-voyage-start:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* --------------------------------------------------------------------------
+   GIAI ĐOẠN 3: PHI THUYỀN VŨ TRỤ & MISSION 01
+   -------------------------------------------------------------------------- */
+.spaceship-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 20;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 20px;
+  pointer-events: auto;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.spaceship-section.active {
+  display: flex;
+  opacity: 1;
+}
+
+.spaceship-section.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* MISSION HUD */
+.mission-hud {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: rgba(18, 8, 32, 0.7);
+  border: 1px solid rgba(255, 112, 166, 0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 16px 28px;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 112, 166, 0.2);
+  max-width: 650px;
+  width: 90%;
+  animation: hudFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes hudFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}
+
+.mission-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.mission-pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #00f5d4;
+  box-shadow: 0 0 12px #00f5d4;
+  animation: pulseDot 1.4s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.3); }
+}
+
+.mission-tag {
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: #00f5d4;
+  font-weight: 600;
+}
+
+.mission-title {
+  font-family: var(--font-title);
+  font-size: clamp(18px, 2.8vw, 24px);
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(255, 112, 166, 0.7);
+  margin-bottom: 12px;
+}
+
+.mission-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #ff70a6, #ff0a54, #00f5d4);
+  box-shadow: 0 0 10px #00f5d4;
+  transition: width 0.4s ease;
+}
+
+.mission-counter {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffd2e0;
+}
+
+.counter-num {
+  font-weight: 600;
+  color: #00f5d4;
+  font-size: 16px;
+}
+
+/* PHI THUYỀN BAY */
+.spaceship-voyage {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ship-wrapper {
+  position: relative;
+  width: 280px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 25px rgba(255, 112, 166, 0.5));
+}
+
+.ship-wrapper.cruising {
+  animation: shipHover 3.2s ease-in-out infinite alternate;
+}
+
+@keyframes shipHover {
+  0% { transform: translateY(-8px) rotate(-1deg); }
+  50% { transform: translateY(8px) rotate(1.5deg); }
+  100% { transform: translateY(-8px) rotate(-1deg); }
+}
+
+.spaceship-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ship-thruster-plume {
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 45px;
+  height: 20px;
+  background: radial-gradient(ellipse at right, #00f5d4 0%, #ff007f 60%, transparent 100%);
+  filter: blur(4px);
+  animation: thrusterFlicker 0.12s infinite alternate;
+}
+
+@keyframes thrusterFlicker {
+  0% { width: 40px; opacity: 0.8; }
+  100% { width: 55px; opacity: 1; }
+}
+
+.ship-cargo-emitter {
+  position: absolute;
+  right: -20px;
+  bottom: 0px;
+  font-size: 1.6rem;
+  filter: drop-shadow(0 0 15px rgba(255, 112, 166, 0.8));
+  animation: cargoDrop 1.8s ease-in-out infinite;
+}
+
+@keyframes cargoDrop {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  50% { opacity: 1; transform: translate(30px, 20px) scale(1.1); }
+  100% { opacity: 0; transform: translate(60px, 40px) scale(0.7); }
+}
+
+/* THẺ HIỂN THỊ HOA TỪNG BẠN NỮ TRONG MISSION */
+.flower-delivery-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 220px;
+}
+
+.delivery-card {
+  position: relative;
+  background: rgba(22, 10, 36, 0.82);
+  border: 1.5px solid rgba(255, 112, 166, 0.45);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 112, 166, 0.3);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 24px 35px;
+  border-radius: 28px;
+  text-align: center;
+  max-width: 480px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.delivery-card.pop-in {
+  animation: deliveryPop 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes deliveryPop {
+  0% { transform: scale(0.7) translateY(30px); opacity: 0; filter: blur(8px); }
+  100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0px); }
+}
+
+.flower-icon-wrap {
+  font-size: 4.2rem;
+  margin-bottom: 8px;
+  animation: floatFlowerIcon 3s ease-in-out infinite alternate;
+}
+
+@keyframes floatFlowerIcon {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-8px) scale(1.06); }
+}
+
+/* NAME: Montserrat SemiBold 18–24px desktop, 16–20px mobile */
+.delivery-name {
+  font-family: var(--font-body);
+  font-size: clamp(18px, 3.5vw, 24px);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(255, 112, 166, 0.5);
+  margin-bottom: 6px;
+}
+
+.delivery-meaning {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: #ffd2fc;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.delivery-sparkle-stars {
+  font-size: 1.1rem;
+  letter-spacing: 6px;
+  color: #ffb703;
+}
+
+/* BUTTONS: Montserrat SemiBold 14–16px, Letter-spacing 0.5–1px */
+.mission-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 0;
+}
+
+.btn-control {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 140, 185, 0.4);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+.btn-control:hover {
+  background: rgba(255, 112, 166, 0.35);
+  border-color: #ff70a6;
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(255, 112, 166, 0.5);
+}
+
+.btn-skip {
+  background: linear-gradient(135deg, rgba(255, 112, 166, 0.3), rgba(114, 9, 183, 0.4));
+  border-color: #ff70a6;
+}
+
+/* --------------------------------------------------------------------------
+   GIAI ĐOẠN 4: KHU VƯỜN 17 BÔNG HOA (THE GALAXY FLOWER GARDEN)
+   -------------------------------------------------------------------------- */
+.garden-section {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  z-index: 15;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 20px 60px;
+}
+
+.garden-section.active {
+  display: flex;
+}
+
+.garden-header {
+  text-align: center;
+  max-width: 800px;
+  margin-bottom: 45px;
+}
+
+.garden-subtitle {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: #ff70a6;
+  margin-bottom: 8px;
+}
+
+/* SECTION TITLE: Playfair Display SemiBold 36–56px desktop, 28–40px mobile */
+.garden-title {
+  font-family: var(--font-title);
+  font-size: clamp(32px, 5vw, 54px);
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #ffcbf2 50%, #ff70a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 25px rgba(255, 112, 166, 0.6));
+  margin-bottom: 14px;
+}
+
+.garden-desc {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 2vw, 17px);
+  font-weight: 400;
+  color: #e2c2d9;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.garden-hint {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffd166;
+  background: rgba(255, 209, 102, 0.1);
+  border: 1px solid rgba(255, 209, 102, 0.3);
+  padding: 6px 18px;
+  border-radius: 20px;
+}
+
+/* BÔNG HOA ĐẶC BIỆT CÔ PHÙNG THỊ KIỀU */
+.teacher-flower-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 45px;
+}
+
+.teacher-pedestal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.teacher-halo-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(255, 209, 102, 0.55);
+  pointer-events: none;
+}
+
+.halo-1 {
+  width: 210px;
+  height: 210px;
+  animation: rotateClockwise 20s linear infinite;
+}
+
+.halo-2 {
+  width: 250px;
+  height: 250px;
+  border-color: rgba(255, 112, 166, 0.4);
+  animation: rotateCounterClockwise 26s linear infinite;
+}
+
+@keyframes rotateClockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes rotateCounterClockwise {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.teacher-flower-node {
+  position: relative;
+  background: radial-gradient(circle, rgba(60, 20, 50, 0.8) 0%, rgba(20, 8, 30, 0.95) 100%);
+  border: 2px solid #ffd166;
+  box-shadow: 0 0 50px rgba(255, 209, 102, 0.65), 0 0 80px rgba(255, 112, 166, 0.4);
+  padding: 30px 45px;
+  border-radius: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 5;
+}
+
+.teacher-flower-node:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 0 80px rgba(255, 209, 102, 0.95), 0 0 110px rgba(255, 112, 166, 0.7);
+  border-color: #ffffff;
+}
+
+.crown-badge {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #ffd166;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-shadow: 0 0 10px rgba(255, 209, 102, 0.8);
+}
+
+.teacher-flower-icon {
+  font-size: clamp(4.5rem, 8vw, 6rem);
+  line-height: 1;
+  filter: drop-shadow(0 0 35px rgba(255, 209, 102, 0.9));
+  animation: floatTeacherFlower 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes floatTeacherFlower {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-10px) scale(1.08); }
+}
+
+.teacher-name-badge {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.role-text {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 2.5px;
+  color: #ffd2e0;
+  font-weight: 600;
+}
+
+/* TÊN CÔ GIÁO: Playfair Display Bold, nổi bật nhất, soft golden glow, pink glow, subtle shadow */
+.name-text {
+  font-family: var(--font-title);
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff9e6;
+  text-shadow: 0 0 20px rgba(255, 209, 102, 0.8), 0 0 35px rgba(255, 112, 166, 0.5), 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* ĐƯỜNG PHÂN CÁCH TRANG TRỌNG */
+.garden-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  max-width: 900px;
+  margin: 25px 0 45px;
+  gap: 16px;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 112, 166, 0.6), transparent);
+}
+
+.divider-icon {
+  font-family: var(--font-title);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #ffccd5;
+}
+
+/* CHÒM SAO 17 BÔNG HOA (GRID KHU VƯỜN) */
+.girls-flower-constellation {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 28px;
+  width: 100%;
+  max-width: 1240px;
+  padding: 10px;
+  margin-bottom: 50px;
+}
+
+.flower-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  animation: flowerFadeIn 0.8s ease-out backwards;
+}
+
+@keyframes flowerFadeIn {
+  0% { opacity: 0; transform: translateY(25px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.flower-node-inner {
+  position: relative;
+  width: 100%;
+  background: rgba(25, 10, 40, 0.6);
+  border: 1px solid rgba(255, 112, 166, 0.25);
+  border-radius: 22px;
+  padding: 24px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  overflow: hidden;
+}
+
+.flower-node-inner:hover {
+  transform: translateY(-8px) scale(1.05);
+  border-color: var(--flower-color);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px var(--flower-glow);
+}
+
+.flower-orbit-ring {
+  position: absolute;
+  top: 30px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+.flower-node-inner:hover .flower-orbit-ring {
+  border-color: var(--flower-color);
+  transform: scale(1.2) rotate(45deg);
+}
+
+.flower-icon {
+  font-size: 3.2rem;
+  line-height: 1;
+  margin-bottom: 16px;
+  z-index: 2;
+  transition: transform 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.flower-node-inner:hover .flower-icon {
+  transform: scale(1.18);
+}
+
+.flower-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  width: 100%;
+}
+
+.flower-index {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #ff70a6;
+  margin-bottom: 4px;
+}
+
+/* NAME: Montserrat SemiBold 18–24px desktop, 16–20px mobile */
+/* Clear, readable, soft hover glow, not harsh neon */
+.flower-name {
+  font-family: var(--font-body);
+  font-size: clamp(16px, 1.2vw, 20px);
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+  line-height: 1.35;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.flower-node-inner:hover .flower-name {
+  color: #fff0f5;
+  text-shadow: 0 0 12px var(--flower-glow);
+}
+
+.flower-tag {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: #c9b1d3;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+}
+
+.garden-footer {
+  margin-top: 10px;
+}
+
+/* BUTTON: Montserrat SemiBold 14–16px, letter-spacing 0.5–1px */
+.btn-finale-trigger {
+  background: linear-gradient(135deg, rgba(255, 71, 126, 0.3), rgba(157, 78, 221, 0.4));
+  border: 1.5px solid rgba(255, 112, 166, 0.6);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  padding: 16px 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 0 35px rgba(255, 71, 126, 0.45);
+  transition: all 0.35s ease;
+}
+
+.btn-finale-trigger:hover {
+  background: linear-gradient(135deg, #ff477e, #9d4edd);
+  transform: translateY(-3px);
+  box-shadow: 0 0 50px rgba(255, 71, 126, 0.8);
+}
+
+/* --------------------------------------------------------------------------
+   GIAI ĐOẠN 5: POPUP THIỆP CHÚC MỪNG (GREETING CARD MODAL)
+   -------------------------------------------------------------------------- */
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.modal-container.visible {
+  display: flex;
+  opacity: 1;
+}
+
+.card-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(8, 2, 16, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.card-modal {
+  position: relative;
+  background: linear-gradient(145deg, rgba(35, 15, 55, 0.95) 0%, rgba(16, 6, 26, 0.98) 100%);
+  border: 1.5px solid rgba(255, 140, 185, 0.5);
+  box-shadow: var(--card-shadow);
+  border-radius: 32px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 40px 35px 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: cardScaleUp 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.card-modal::-webkit-scrollbar {
+  width: 6px;
+}
+.card-modal::-webkit-scrollbar-track {
+  background: rgba(20, 8, 30, 0.4);
+  border-radius: 10px;
+}
+.card-modal::-webkit-scrollbar-thumb {
+  background: rgba(255, 112, 166, 0.5);
+  border-radius: 10px;
+}
+.card-modal::-webkit-scrollbar-thumb:hover {
+  background: #ff70a6;
+}
+.teacher-card-modal::-webkit-scrollbar-thumb {
+  background: rgba(255, 209, 102, 0.6);
+}
+
+@keyframes cardScaleUp {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.btn-card-close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-card-close:hover {
+  background: rgba(255, 42, 133, 0.5);
+  border-color: #ff2a85;
+}
+
+.card-decor-header {
+  margin-bottom: 20px;
+}
+
+.card-badge {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #ff70a6;
+  background: rgba(255, 112, 166, 0.15);
+  padding: 4px 14px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.card-flower-emblem {
+  font-size: 4.5rem;
+  line-height: 1;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 25px rgba(255, 112, 166, 0.7));
+}
+
+/* NAME (Tên bạn nữ trong thiệp): Montserrat SemiBold 20–26px */
+.card-recipient {
+  font-family: var(--font-body);
+  font-size: clamp(20px, 3.5vw, 26px);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-shadow: 0 0 18px rgba(255, 112, 166, 0.6);
+  margin-bottom: 4px;
+}
+
+/* CARD TITLE: Playfair Display SemiBold */
+.card-flower-title {
+  font-family: var(--font-title);
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffd2e0;
+  font-style: italic;
+}
+
+.card-body {
+  position: relative;
+  width: 100%;
+  margin: 12px 0 20px;
+  padding: 0 10px;
+}
+
+.card-quote-icon {
+  font-family: var(--font-title);
+  font-size: 3rem;
+  line-height: 0.5;
+  color: rgba(255, 112, 166, 0.35);
+  margin-bottom: 8px;
+}
+
+.quote-end {
+  margin-top: 14px;
+  margin-bottom: 0;
+}
+
+/* BODY MESSAGE: Montserrat Regular 15–18px desktop, 14–16px mobile, easy to read */
+.card-message {
+  font-family: var(--font-body);
+  font-size: clamp(14px, 2.5vw, 16.5px);
+  font-weight: 400;
+  line-height: 1.85;
+  color: #ffeff5;
+  letter-spacing: 0.2px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-decor-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 16px;
+  width: 100%;
+}
+
+.card-meaning-tag {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: #ffccd5;
+  margin-bottom: 8px;
+}
+
+/* HANDWRITTEN QUOTE: Dancing Script Medium 22–32px */
+.card-handwritten-note {
+  font-family: var(--font-script);
+  font-size: clamp(22px, 3.2vw, 28px);
+  font-weight: 600;
+  color: #ffb3c6;
+  margin: 8px 0 6px;
+  text-shadow: 0 0 12px rgba(255, 112, 166, 0.6);
+}
+
+.card-wish-tag {
+  font-family: var(--font-title);
+  font-size: 15px;
+  font-weight: 600;
+  color: #ff70a6;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.card-sender {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #a89bb6;
+  text-transform: uppercase;
+}
+
+/* THIỆP HOÀNG GIA DÀNH CHO CÔ PHÙNG THỊ KIỀU */
+.teacher-card-modal {
+  max-width: 680px;
+  border: 2px solid #ffd166;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 60px rgba(255, 209, 102, 0.6);
+  background: linear-gradient(145deg, rgba(45, 18, 55, 0.98) 0%, rgba(18, 6, 25, 0.99) 100%);
+}
+
+.btn-teacher-close:hover {
+  background: rgba(255, 209, 102, 0.4);
+  border-color: #ffd166;
+}
+
+.teacher-card-crown {
+  font-size: 1.4rem;
+  letter-spacing: 8px;
+  margin-bottom: 6px;
+}
+
+.teacher-badge {
+  background: rgba(255, 209, 102, 0.2);
+  color: #ffd166;
+  border: 1px solid rgba(255, 209, 102, 0.4);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.teacher-card-emblem {
+  font-size: 5rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 35px rgba(255, 209, 102, 0.95));
+  margin-bottom: 12px;
+}
+
+/* TÊN CÔ GIÁO TRONG THIỆP: Playfair Display Bold, nổi bật nhất */
+.teacher-recipient {
+  font-family: var(--font-title);
+  font-size: clamp(26px, 4.5vw, 36px);
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffd166;
+  text-shadow: 0 0 25px rgba(255, 209, 102, 0.85), 0 0 45px rgba(255, 112, 166, 0.5), 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+.teacher-flower-name {
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 16px;
+  color: #ffd2e0;
+}
+
+.teacher-para {
+  font-family: var(--font-body);
+  font-size: clamp(14px, 2.3vw, 16px);
+  font-weight: 400;
+  line-height: 1.85;
+  color: #fff8f0;
+  margin-bottom: 12px;
+}
+
+.teacher-handwritten-note {
+  font-family: var(--font-script);
+  font-size: clamp(24px, 3.5vw, 30px);
+  font-weight: 600;
+  color: #ffd166;
+  text-shadow: 0 0 15px rgba(255, 209, 102, 0.7);
+  margin: 8px 0 6px;
+}
+
+.teacher-sparkle-ribbon {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffd166;
+  margin-bottom: 8px;
+}
+
+.teacher-signature {
+  font-family: var(--font-title);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #fca3b7;
+}
+
+/* --------------------------------------------------------------------------
+   GIAI ĐOẠN 6: LỜI KẾT 20/10 (GRAND FINALE)
+   -------------------------------------------------------------------------- */
+.finale-section {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  z-index: 25;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 20px;
+  text-align: center;
+  background: radial-gradient(circle at center, rgba(110, 15, 65, 0.5) 0%, rgba(30, 8, 45, 0.9) 70%, rgba(10, 4, 18, 0.98) 100%);
+}
+
+.finale-section.active {
+  display: flex;
+}
+
+.finale-content {
+  max-width: 850px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.finale-line {
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: clamp(20px, 3.5vw, 28px);
+  line-height: 1.6;
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(255, 112, 166, 0.85);
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.finale-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* HANDWRITTEN QUOTES FOR 3 LINES: Dancing Script Medium 22–32px */
+.finale-line.handwritten {
+  font-family: var(--font-script);
+  font-weight: 600;
+  font-size: clamp(26px, 4.2vw, 36px);
+  color: #ffd6e0;
+  text-shadow: 0 0 15px rgba(255, 112, 166, 0.8);
+}
+
+.finale-line.highlight {
+  font-family: var(--font-title);
+  font-weight: 700;
+  background: linear-gradient(90deg, #ff70a6, #ffd166, #ff70a6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: clamp(22px, 3.8vw, 32px);
+}
+
+.finale-final-card {
+  margin-top: 35px;
+  background: rgba(25, 10, 40, 0.75);
+  border: 2px solid rgba(255, 112, 166, 0.6);
+  box-shadow: 0 0 60px rgba(255, 71, 126, 0.65), 0 20px 50px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 40px 50px;
+  border-radius: 35px;
+  width: 100%;
+  max-width: 650px;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 1.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.finale-final-card.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.final-badge-title {
+  font-family: var(--font-title);
+  font-size: clamp(18px, 3.2vw, 24px);
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #ffccd5;
+  margin-bottom: 10px;
+}
+
+/* MAIN TITLE: Playfair Display Bold 64–100px desktop, 40–64px mobile */
+.final-big-date {
+  font-family: var(--font-title);
+  font-size: clamp(56px, 12vw, 96px);
+  font-weight: 700;
+  line-height: 1;
+  color: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #ffcbf2 40%, #ff0a54 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 30px rgba(255, 42, 133, 0.7));
+  margin-bottom: 12px;
+}
+
+.final-class-tag {
+  font-family: var(--font-title);
+  font-size: clamp(22px, 3.5vw, 30px);
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: #ffd166;
+  text-shadow: 0 0 20px rgba(255, 209, 102, 0.9);
+}
+
+.final-handwritten-note {
+  font-family: var(--font-script);
+  font-size: clamp(24px, 3.5vw, 32px);
+  font-weight: 600;
+  color: #ffb3c6;
+  margin-top: 14px;
+  text-shadow: 0 0 12px rgba(255, 112, 166, 0.6);
+}
+
+.finale-actions {
+  margin-top: 40px;
+}
+
+.btn-back-garden {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 112, 166, 0.5);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 12px 28px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-back-garden:hover {
+  background: rgba(255, 112, 166, 0.3);
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE DESIGN (TỐI ƯU MOBILE & TABLET)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .top-nav {
+    top: 15px;
+    right: 15px;
+  }
+  
+  .btn-music-toggle {
+    font-size: 13px;
+    padding: 7px 14px;
+  }
+
+  .girls-flower-constellation {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .flower-node-inner {
+    padding: 18px 10px 14px;
+  }
+
+  .flower-icon {
+    font-size: 2.6rem;
+    margin-bottom: 10px;
+  }
+
+  .flower-name {
+    font-size: 16px;
+  }
+
+  .flower-tag {
+    font-size: 12px;
+  }
+
+  .teacher-flower-node {
+    padding: 24px 20px;
+  }
+
+  .halo-1 { width: 170px; height: 170px; }
+  .halo-2 { width: 200px; height: 200px; }
+
+  .card-modal {
+    padding: 30px 20px 25px;
+    border-radius: 24px;
+  }
+
+  .finale-final-card {
+    padding: 30px 20px;
+  }
+}
+
+@media (max-width: 420px) {
+  .girls-flower-constellation {
+    grid-template-columns: 1fr;
+    max-width: 280px;
+  }
+}
