@@ -1,6 +1,6 @@
 # 🌸 20/10 – CHUYẾN DU HÀNH VŨ TRỤ MANG NHỮNG BÔNG HOA ĐẾN LỚP 11B 🚀
 
-Một món quà kỹ thuật số đặc biệt, cinematic, lãng mạn và đầy ý nghĩa dành tặng toàn bộ **17 bạn nữ** cùng **Cô giáo chủ nhiệm Phùng Thị Kiều** của tập thể **Lớp 11B**.
+Một món quà kỹ thuật số đặc biệt, cinematic, lãng mạn và đầy ý nghĩa dành tặng toàn bộ **17 bạn nữ** cùng **Cô giáo chủ nhiệm ** của tập thể **Lớp 11B**.
 
 ---
 
@@ -13,7 +13,7 @@ Một món quà kỹ thuật số đặc biệt, cinematic, lãng mạn và đ�
    - **Phi thuyền tương lai (Mission 01)**: Chiếc phi thuyền thiết kế khí động học với động cơ plasma và vệt khói hồng tím mang 17 đóa hoa lần lượt đến từng bạn nữ lớp 11B.
    - **Khu vườn hoa Thiên Hà (The Galaxy Flower Garden)**:
      - 17 đóa hoa đại diện cho 17 bạn nữ trong chòm sao lung linh, hover phóng to tỏa hào quang.
-     - **Đóa Hoa Đặc Biệt Nhất**: Đóa hoa hoàng gia lộng lẫy nhất dành tặng **Cô giáo chủ nhiệm Phùng Thị Kiều** với vầng hào quang kép và ánh sáng kim cương vàng ánh kim.
+     - **Đóa Hoa Đặc Biệt Nhất**: Đóa hoa hoàng gia lộng lẫy nhất dành tặng **Cô giáo chủ nhiệm ** với vầng hào quang kép và ánh sáng kim cương vàng ánh kim.
    - **18 Tấm thiệp riêng biệt**: Mỗi bạn nữ có một tấm thiệp thiết kế glassmorphism sang trọng với lời chúc ý nghĩa, chân thành riêng biệt; thiệp của Cô giáo chủ nhiệm được thiết kế trang trọng bậc nhất.
    - **Lời kết 20/10 xúc động**: Đoạn kết lắng đọng với thông điệp tôn vinh vẻ đẹp của tập thể 11B.
 
@@ -32,7 +32,7 @@ Một món quà kỹ thuật số đặc biệt, cinematic, lãng mạn và đ�
    - **Playfair Display (Bold 700 / SemiBold 600)**: Tiêu đề "20/10", "HAPPY VIETNAMESE WOMEN'S DAY", "THE GALAXY FLOWER GARDEN", Tên Cô giáo ****, tiêu đề thiệp và lời kết.
    - **Montserrat (Regular 400 / Medium 500 / SemiBold 600)**: Tên 17 bạn nữ (SemiBold 600, rõ ràng, dễ đọc, glow nhẹ khi hover), nội dung thiệp, nút bấm (14–16px, letter-spacing 0.5–1px), UI và các thông tin chi tiết.
    - **Dancing Script (Medium 500 / SemiBold 600)**: Font viết tay dùng tiết chế cho các câu chúc nổi bật, quote và chữ ký cuối thiệp (*With love, 11B ♡*).
-   - **Hỗ trợ 100% tiếng Việt chuẩn Unicode**: Đảm bảo hiển thị hoàn hảo đầy đủ dấu cho 17 bạn nữ và cô giáo Phùng Thị Kiều.
+   - **Hỗ trợ 100% tiếng Việt chuẩn Unicode**: Đảm bảo hiển thị hoàn hảo đầy đủ dấu cho 17 bạn nữ và cô giáo .
 
 ---
 
