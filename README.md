@@ -29,7 +29,7 @@ Một món quà kỹ thuật số đặc biệt, cinematic, lãng mạn và đ�
    - Thích ứng hoàn hảo trên Desktop, Laptop, iPad/Tablet và Smartphone.
 
 5. **Hệ Thống Typography Chuẩn Cao Cấp (3 Fonts)**:
-   - **Playfair Display (Bold 700 / SemiBold 600)**: Tiêu đề "20/10", "HAPPY VIETNAMESE WOMEN'S DAY", "THE GALAXY FLOWER GARDEN", Tên Cô giáo **PHÙNG THỊ KIỀU**, tiêu đề thiệp và lời kết.
+   - **Playfair Display (Bold 700 / SemiBold 600)**: Tiêu đề "20/10", "HAPPY VIETNAMESE WOMEN'S DAY", "THE GALAXY FLOWER GARDEN", Tên Cô giáo ****, tiêu đề thiệp và lời kết.
    - **Montserrat (Regular 400 / Medium 500 / SemiBold 600)**: Tên 17 bạn nữ (SemiBold 600, rõ ràng, dễ đọc, glow nhẹ khi hover), nội dung thiệp, nút bấm (14–16px, letter-spacing 0.5–1px), UI và các thông tin chi tiết.
    - **Dancing Script (Medium 500 / SemiBold 600)**: Font viết tay dùng tiết chế cho các câu chúc nổi bật, quote và chữ ký cuối thiệp (*With love, 11B ♡*).
    - **Hỗ trợ 100% tiếng Việt chuẩn Unicode**: Đảm bảo hiển thị hoàn hảo đầy đủ dấu cho 17 bạn nữ và cô giáo Phùng Thị Kiều.
