@@ -18,26 +18,6 @@ Một món quà kỹ thuật số đặc biệt, cinematic, lãng mạn và đ�
    - **Lời kết 20/10 xúc động**: Đoạn kết lắng đọng với thông điệp tôn vinh vẻ đẹp của tập thể 11B.
 
 2. **Dữ liệu chính xác 100%**:
-   - **Danh sách 17 bạn nữ lớp 11B**:
-     1. Đỗ Phạm Quỳnh Anh
-     2. Nguyễn Ngọc Minh Anh
-     3. Nguyễn Phương Anh
-     4. Vũ Thị Thùy Dung
-     5. Nguyễn Thị Mỹ Duyên
-     6. Hà Thị Hồng
-     7. Đinh Thị Thu Huệ
-     8. Khúc Thu Hương
-     9. Tăng Thị Ngọc Minh
-     10. Vũ Như Ngọc
-     11. Nguyễn Trang Nhung
-     12. Trương Thị Quyên
-     13. Đoàn Phương Thảo
-     14. Hoàng Phương Thảo
-     15. Đỗ Anh Thư
-     16. Hoàng Thị Hương Trà
-     17. Nguyễn Thùy Trang
-   - **Cô giáo chủ nhiệm**: **Phùng Thị Kiều** (Nhân vật đặc biệt độc lập, sở hữu đóa hoa và thiệp lớn nhất).
-
 3. **Âm thanh & Nhạc nền vũ trụ lãng mạn (Web Audio API)**:
    - Tự động tạo nhạc nền synthesizer không gian êm dịu, ấm áp, âm lượng chuẩn 35%.
    - Không lo lỗi mạng hay chặn liên kết bên ngoài.
@@ -60,7 +40,7 @@ Một món quà kỹ thuật số đặc biệt, cinematic, lãng mạn và đ�
 
 ### Cách 1: Chạy trực tiếp (Nhanh nhất)
 Nhấp đúp chuột vào file `index.html` hoặc file `start.bat` trong thư mục:
-`C:\Users\tungb\.gemini\antigravity\scratch\web-20-10-11b`
+
 
 ### Cách 2: Chạy qua Live Server / HTTP Server (Tùy chọn)
 Trong terminal tại thư mục dự án, chạy:
